@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitter Clone</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+
+  <!-- Styles -->
+  
+</head>
+
+<body>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <i class="fab fa-twitter"></i>
+
+    <div class="sidebarOption active">
+      <span class="material-icons">home</span>
+      <h2>Home</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons">search</span>
+      <h2>Explore</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons">notifications_none</span>
+      <h2>Notifications</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons">mail_outline</span>
+      <h2>Messages</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons">bookmark_border</span>
+      <h2>Bookmarks</h2>
+    </div>
+
+    <div class="sidebarOption">
+      <span class="material-icons">perm_identity</span>
+      <h2>Profile</h2>
+    </div>
+
+    <button class="sidebar__tweet">Tweet</button>
+  </div>
+
+  <!-- FEED -->
+  <div class="feed">
+    <div class="feed__header">
+      <h2>Home</h2>
+    </div>
+
+    <div class="tweetBox">
+      <div class="tweetbox__input">
+        <img src="https://i.pravatar.cc/150?img=3" />
+        <input type="text" placeholder="What's happening?" />
+      </div>
+      <button class="tweetBox__tweetButton">Tweet</button>
+    </div>
+
+    <!-- POST -->
+    <div class="post">
+      <div class="post__avatar">
+        <img src="https://i.pravatar.cc/150?img=3" />
+      </div>
+
+      <div class="post__body">
+        <div class="post__header">
+          <div class="post__headerText">
+            <h3>
+              Somanath Goudar
+              <span class="post__headerSpecial">
+                <span class="material-icons post__badge">verified</span>
+                @somanathg
+              </span>
+            </h3>
+          </div>
+          <div class="post__headerDescription">
+            <p>This is a clean Twitter UI clone 🚀</p>
+          </div>
+        </div>
+
+        <img src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg" />
+
+        <div class="post__footer">
+          <span class="material-icons">repeat</span>
+          <span class="material-icons">favorite_border</span>
+          <span class="material-icons">publish</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIDGETS -->
+  <div class="widgets">
+    <div class="widgets__input">
+      <span class="material-icons">search</span>
+      <input type="text" placeholder="Search Twitter" />
+    </div>
+
+    <div class="widgets__widgetContainer">
+      <h2>What's happening</h2>
+      <p>#WebDevelopment</p>
+      <p>#CSS</p>
+      <p>#JavaScript</p>
+    </div>
+  </div>
+</body>
+</html>
