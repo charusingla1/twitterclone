@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <title>login</title>
+</head>
+<body>
+    <div id="container">
+        <div id="logo">
+            <img src="X_logo.png" id="X" alt="X Logo" >
+        </div>
+        <div id="login-container">
+           <h1>Happening now</h1>
+           <h2>Join today.</h2>
+           <button class="login_button" id="google"><img src="google.png" class="icon" alt="Google"> <span>Sign in with Google</span></button>
+           <button class="login_button" id="apple"><img src="apple.png" class="icon" alt="Apple"> <span>Sign in with Apple</span></button>
+           <div id="divider">
+            <hr class="line" id="line1">
+            <span>OR</span>
+            <hr class="line" id="line2">
+
+           </div>
+           <button class="login_button" id="createAccount">Create Account</button>
+           <h3>Already have an account?</h3>
+           <button class="login_button" id="signin">Sign in</button>
+
+           
+        </div>
+    </div>
+    <div class="dialog" id="newAccount">
+        <div class="head">
+            <span class="closeButton">&times;</span>
+            <img src="X_logo.png" alt="X Logo" >
+        </div>
+        
+        <h2>Create your account</h2>
+        <input type="text" placeholder="Name">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder=" Create Password">
+        <h3>Date of Birth</h3>
+        <p>This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
+        <input type="date">
+        <button id="submit-button">Next</button>
+    </div>
+
+    <div class="dialog" id="Signin_dialog">
+        <span class="closeButton">&times;</span>
+        <h2>Create Account</h2>
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="Phone or email">
+        <input type="password" placeholder="Password">
+        <button id="submit-button2">Create Account</button>
+    </div>
+</body>
+</html>

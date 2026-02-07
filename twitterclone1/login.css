@@ -1,0 +1,156 @@
+
+body{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
+    color: #000;
+    min-height: 100%;
+}
+
+#container{
+    width:100%;
+    height:100%;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+}
+
+#login-container{
+    width:45%;
+    height:45%;
+    border-radius:10px;
+}
+#logo{
+    width:55%;
+    height:55%;
+    display: flex;  
+    justify-content: center;
+    align-items: center;
+}
+
+#X{
+    display: block;
+    position:relative;
+    width:80;
+    height:100%;
+    margin-top: 20%;
+}
+
+h1{
+    font-size: 4rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+}
+
+h2{
+    font-size: 2rem;
+    font-weight: 650;
+    margin-bottom: 1.5rem;
+}
+
+.login_button{
+    width:50%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 20px;
+    border: 1px solid lightgray;
+    font-size: 1rem;
+    background-color: #fff;
+    
+}
+
+#google .icon{
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#google{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#apple{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#apple .icon{
+    width: 38px;
+    height: 22px;
+    display: inline-block;
+    margin-left: -5px;
+}
+
+#createAccount{
+    background-color:#000;
+    color: #fff;
+    font-weight:600;
+    border: 1px solid #000;
+}
+
+#signin{
+    color: #000;
+    font-weight:600;
+}
+
+.line{
+    width: 21%;
+    border: 1px solid lightgray;
+}
+
+#line2{
+    margin-left:27%;
+    position:relative;
+    top:-1.25rem;
+
+}
+#line1{
+    margin-left:0%;
+    position:relative;
+    top:1rem;
+
+}
+
+#divider span{
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 22%;
+}
+
+.dialog{
+    width:50%;
+    height: 90%;
+    border-radius: 10px;
+    background-color: #fff;
+    position: fixed;
+    top:5%;
+    z-index: 999;
+    border: 1px solid lightgray;
+    left:25%;
+    display:none;
+
+}
+
+#newAccount{
+}
+
+#newAccount .head{
+    height:5%;
+    padding: 1rem;
+}
+
+#newAccount .head img{
+    width: 6%;
+    height: 100%;
+    cursor: pointer;
+}
+
+#Signin_dialog{
+    display:none;
+}
