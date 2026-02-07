@@ -5,8 +5,29 @@
 }
 
 body {
-  --twitter-color: #50b7f5;
-  --twitter-background: #e6ecf0;
+  /* X black-and-white theme variables */
+  --theme-accent: #ffffff; /* primary accent (used where previously blue appeared) */
+  --theme-bg: #000000; /* main background */
+  --theme-surface: #0f0f0f; /* slightly lighter surface for cards and panels */
+  --theme-border: #222222; /* borders and separators */
+  --theme-muted: #9a9a9a; /* muted text */
+  color: var(--theme-accent);
+  background-color: var(--theme-bg);
+}
+
+/* Inputs and placeholders */
+.tweetbox__input input,
+.widgets__input input {
+  color: var(--theme-accent);
+}
+
+.tweetbox__input input::placeholder,
+.widgets__input input::placeholder {
+  color: var(--theme-muted);
+}
+
+.material-icons {
+  color: var(--theme-muted);
 }
 
 .sidebarOption {
@@ -15,9 +36,12 @@ body {
   cursor: pointer;
 }
 
-.sidebarOption .material-icons,
-.fa-twitter {
+.sidebarOption .material-icons, .logo {
   padding: 20px;
+}
+
+.sidebarOption .material-icons {
+  color: var(--theme-muted);
 }
 
 .sidebarOption h2 {
@@ -27,21 +51,21 @@ body {
 }
 
 .sidebarOption:hover {
-  background-color: var(--twitter-background);
+  background-color: var(--theme-surface);
   border-radius: 30px;
-  color: var(--twitter-color);
+  color: var(--theme-accent);
   transition: color 100ms ease-out;
 }
 
 .sidebarOption.active {
-  color: var(--twitter-color);
+  color: var(--theme-accent);
 }
 
 .sidebar__tweet {
   width: 100%;
-  background-color: var(--twitter-color);
+  background-color: var(--theme-accent);
   border: none;
-  color: white;
+  color: var(--theme-bg);
   font-weight: 900;
   border-radius: 30px;
   height: 50px;
@@ -55,10 +79,12 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding: 0 10px;
+  background-color: var(--theme-bg);
+  color: var(--theme-accent);
 }
 
 .sidebar {
-  border-right: 1px solid var(--twitter-background);
+  border-right: 1px solid var(--theme-border);
   flex: 0.2;
 
   min-width: 250px;
@@ -67,15 +93,18 @@ body {
   padding-right: 20px;
 }
 
-.fa-twitter {
-  color: var(--twitter-color);
-  font-size: 30px;
+.logo {
+  font-weight: 900;
+  font-size: 34px;
+  padding: 14px 6px;
+  display: inline-block;
+  color: var(--theme-accent);
 }
 
 /* feed */
 .feed {
   flex: 0.5;
-  border-right: 1px solid var(--twitter-background);
+  border-right: 1px solid var(--theme-border);
   min-width: fit-content;
   overflow-y: scroll;
 }
@@ -83,9 +112,9 @@ body {
 .feed__header {
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--theme-bg);
   z-index: 100;
-  border: 1px solid var(--twitter-background);
+  border: 1px solid var(--theme-border);
   padding: 15px 20px;
 }
 
@@ -111,7 +140,7 @@ body {
 
 .tweetBox {
   padding-bottom: 10px;
-  border-bottom: 8px solid var(--twitter-background);
+  border-bottom: 8px solid var(--theme-border);
   padding-right: 10px;
 }
 
@@ -134,9 +163,9 @@ body {
 }
 
 .tweetBox__tweetButton {
-  background-color: var(--twitter-color);
+  background-color: var(--theme-accent);
   border: none;
-  color: white;
+  color: var(--theme-bg);
   font-weight: 900;
 
   border-radius: 30px;
@@ -155,7 +184,7 @@ body {
 .post {
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px solid var(--twitter-background);
+  border-bottom: 1px solid var(--theme-border);
   padding-bottom: 10px;
 }
 
@@ -173,19 +202,20 @@ body {
 
 .post__badge {
   font-size: 14px !important;
-  color: var(--twitter-color);
+  color: var(--theme-accent);
   margin-right: 5px;
 }
 
 .post__headerSpecial {
   font-weight: 600;
   font-size: 12px;
-  color: gray;
+  color: var(--theme-muted);
 }
 
 .post__headerText h3 {
   font-size: 15px;
   margin-bottom: 5px;
+  color: var(--theme-accent);
 }
 
 .post__headerDescription {
@@ -210,7 +240,7 @@ body {
 .widgets__input {
   display: flex;
   align-items: center;
-  background-color: var(--twitter-background);
+  background-color: var(--theme-surface);
   padding: 10px;
   border-radius: 20px;
   margin-top: 10px;
@@ -219,18 +249,19 @@ body {
 
 .widgets__input input {
   border: none;
-  background-color: var(--twitter-background);
+  background-color: transparent;
+  color: var(--theme-accent);
 }
 
 .widgets__searchIcon {
-  color: gray;
+  color: var(--theme-muted);
 }
 
 .widgets__widgetContainer {
   margin-top: 15px;
   margin-left: 20px;
   padding: 20px;
-  background-color: #f5f8fa;
+  background-color: var(--theme-surface);
   border-radius: 20px;
 }
 
