@@ -8,7 +8,10 @@
     <title>login</title>
 </head>
 <body>
-    <div id="container">
+    <div id="logging">
+        <img src="X_logo.png" alt="X Logo">
+    </div>
+    <div id="container" >
         <div id="logo">
             <img src="X_logo.png" id="X" alt="X Logo" >
         </div>
@@ -18,9 +21,9 @@
            <button class="login_button" id="google"><img src="google.png" class="icon" alt="Google"> <span>Sign in with Google</span></button>
            <button class="login_button" id="apple"><img src="apple.png" class="icon" alt="Apple"> <span>Sign in with Apple</span></button>
            <div id="divider">
-            <hr class="line" id="line1">
+            <hr class="line one">
             <span>OR</span>
-            <hr class="line" id="line2">
+            <hr class="line two">
 
            </div>
            <button class="login_button" id="createAccount">Create Account</button>
@@ -30,29 +33,52 @@
            
         </div>
     </div>
+
+    <div id="backdrop"></div>
+
     <div class="dialog" id="newAccount">
         <div class="head">
             <span class="closeButton">&times;</span>
             <img src="X_logo.png" alt="X Logo" >
         </div>
-        
-        <h2>Create your account</h2>
-        <input type="text" placeholder="Name">
-        <input type="email" placeholder="Email">
-        <input type="password" placeholder=" Create Password">
-        <h3>Date of Birth</h3>
-        <p>This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
-        <input type="date">
-        <button id="submit-button">Next</button>
+        <div class="body">
+            <h2>Create your account</h2>
+            
+            <input id="new_name" type="text" placeholder="Name">
+            <p class="err_msg" id="wrong_newname">Name must be between 3 and 50 characters long!</p>
+            <input id="new_email" type="email" placeholder="Email">
+            <p class="err_msg" id="wrong_email">Please enter a valid email address!</p>
+            <input id="new_pswd" type="password" placeholder=" Create Password">
+            <input id="confirm_pswd" type="password" placeholder=" Confirm Password">
+            <p class="err_msg" id="pswd_mismatch">Passwords do not match!</p>
+            <p class="err_msg" id="weak_pswd">Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and a number.</p>
+            <h3>Date of Birth</h3>
+            <p id="disclaimer">This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
+            <input id="new_dob" type="date">
+            <p class="err_msg" id="wrong_dob">You must be at least 13 years old to create an account!</p>
+            <button id="submit-button" disabled>Next</button>
+        </div>
     </div>
 
     <div class="dialog" id="Signin_dialog">
-        <span class="closeButton">&times;</span>
-        <h2>Create Account</h2>
-        <input type="text" placeholder="Name">
-        <input type="text" placeholder="Phone or email">
-        <input type="password" placeholder="Password">
-        <button id="submit-button2">Create Account</button>
+        <div class="head">
+            <span class="closeButton">&times;</span>
+            <img src="X_logo.png" alt="X Logo">
+        </div>
+        <div class="body">
+        <h2>Sign in to X</h2>
+
+        <p class="err_msg" id="wrong_name">The username or email you entered is incorrect!</p>
+        <p class="err_msg" id="wrong_pswd">Incorrect password!</p>
+
+        
+        <input id="name" type="text" placeholder="Username or email">
+        <input id="pswd" type="password" placeholder="Password">
+        <button id="submit-button2">Next</button>
+        <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+        
     </div>
+    <script src="login.js"></script>
 </body>
 </html>
