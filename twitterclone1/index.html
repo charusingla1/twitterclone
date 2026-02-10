@@ -3,100 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Clone - Project 1</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>X Clone - Final Build</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
-<div class="main-layout">
+<div class="app-layout">
     <nav class="sidebar">
-        <div class="nav-logo">
-            <svg viewBox="0 0 24 24" class="x-icon"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+        <div class="logo-wrapper">
+            <svg viewBox="0 0 24 24" class="x-logo"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
         </div>
         <div class="nav-links">
-            <div class="nav-item active"><span class="material-icons">home</span> <span>Home</span></div>
+            <div class="nav-item active" onclick="showHome()" id="home-nav">
+                <span class="material-icons">home</span> <span>Home</span>
+            </div>
             <div class="nav-item"><span class="material-icons">search</span> <span>Explore</span></div>
             <div class="nav-item"><span class="material-icons">notifications_none</span> <span>Notifications</span></div>
             <div class="nav-item"><span class="material-icons">mail_outline</span> <span>Messages</span></div>
-            <div class="nav-item" onclick="toggleProfile()"><span class="material-icons">person_outline</span> <span>Profile</span></div>
+            <div class="nav-item" onclick="showProfile()" id="profile-nav">
+                <span class="material-icons">person_outline</span> <span>Profile</span>
+            </div>
+            <div class="nav-item"><span class="material-icons">more_horiz</span> <span>More</span></div>
         </div>
-        <button class="post-btn-main">Post</button>
+        <button class="tweet-btn">Post</button>
         
-        <div class="user-profile-pill">
-            <img src="https://i.pravatar.cc/150?u=me" class="avatar-sm">
-            <div class="user-names">
-                <p class="name">Kristi Hines <span class="material-icons verified-gold">verified</span></p>
+        <div class="user-pill">
+            <img src="https://i.pravatar.cc/150?u=kristi" class="avatar-vsm">
+            <div class="user-info">
+                <p class="name">Kristi Hines <span class="material-icons verified-icon">verified</span></p>
                 <p class="handle">@kristileilani</p>
             </div>
-            <span class="material-icons">more_horiz</span>
         </div>
     </nav>
 
     <main class="feed">
-        <header class="feed-header">
-            <span class="material-icons" id="backBtn" style="display:none; cursor:pointer;">arrow_back</span>
-            <div>
-                <h2 id="headerTitle">Home</h2>
-                <span id="tweetCount" class="sub-text" style="display:none;">14.9K Tweets</span>
-            </div>
+        <header class="header">
+            <h2 id="header-title">Home</h2>
         </header>
 
-        <section id="profileSection" class="profile-view" style="display:none;">
-            <div class="banner"></div>
-            <div class="profile-content">
-                <div class="avatar-row">
-                    <img src="https://i.pravatar.cc/150?u=x" class="avatar-lg">
-                    <button class="following-btn">Following</button>
-                </div>
-                <div class="profile-info">
-                    <h3>X <span class="material-icons verified-gold">verified</span></h3>
-                    <p class="handle">@Twitter</p>
-                    <p class="bio">What's happening?! [cite: 31]</p>
-                    <div class="meta-info">
-                        <span><span class="material-icons">location_on</span> everywhere</span>
-                        <span><span class="material-icons">link</span> <a href="#">about.twitter.com</a></span>
-                    </div>
-                    <div class="stats">
-                        <span><strong>0</strong> Following</span>
-                        <span><strong>65.7M</strong> Followers</span>
+        <div id="home-view">
+            <div class="composer">
+                <img src="https://i.pravatar.cc/150?u=kristi" class="avatar-sm">
+                <div class="composer-body">
+                    <div class="composer-input" contenteditable="true">What is happening?!</div>
+                    <div class="composer-footer">
+                        <div class="icons">
+                            <span class="material-icons">image</span>
+                            <span class="material-icons">gif_box</span>
+                            <span class="material-icons">poll</span>
+                        </div>
+                        <button class="post-btn-sm">Post</button>
                     </div>
                 </div>
             </div>
-            <div class="tabs">
-                <div class="tab active">Tweets</div>
-                <div class="tab">Replies</div>
-                <div class="tab">Media</div>
-                <div class="tab">Likes</div>
-            </div>
-        </section>
 
-        <div class="tweet-composer" id="composer">
-            <div class="composer-row">
-                <img src="https://i.pravatar.cc/150?u=me" class="avatar-sm">
-                <textarea placeholder="What is happening?!" id="tweetInput" maxlength="280"></textarea>
-            </div>
-            <div class="composer-footer">
-                <div class="icons">
-                    <span class="material-icons">image</span>
-                    <span class="material-icons">gif_box</span>
-                    <span class="material-icons">poll</span>
-                </div>
-                <div class="right-footer">
-                    <span id="charCounter">0/280</span> <button class="post-submit" id="postBtn" disabled>Post</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="tweetFeed">
             <article class="post">
-                <img src="https://i.pravatar.cc/150?u=x" class="avatar-sm">
-                <div class="post-body">
+                <img src="https://i.pravatar.cc/150?u=meme1" class="avatar-sm">
+                <div class="post-content">
                     <div class="post-header">
-                        <strong>X</strong> <span class="material-icons verified-gold">verified</span>
-                        <span class="handle-gray">@Twitter · Jul 21</span>
+                        <strong>Engineering Memes</strong> <span class="material-icons verified-blue">verified</span> <span class="gray">@btech_memes · 10m</span>
                     </div>
-                    <p class="post-text">We've had tremendous interest in the new ads revenue sharing program from creators around the world.</p>
+                    <p class="post-text">B.Tech Students checking their result after writing "Jai Mata Di" on every page: 💀</p>
+                    <div class="post-media">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600" class="meme-img">
+                    </div>
+                    <div class="post-actions">
+                        <span class="material-icons">chat_bubble_outline</span>
+                        <span class="material-icons">repeat</span>
+                        <span class="material-icons">favorite_border</span>
+                        <span class="material-icons">bar_chart</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post">
+                <img src="https://i.pravatar.cc/150?u=struggle" class="avatar-sm">
+                <div class="post-content">
+                    <div class="post-header">
+                        <strong>B.Tech Struggle</strong> <span class="gray">@struggle · 2h</span>
+                    </div>
+                    <p class="post-text">Life ne engineering chuni ya engineering ne life?<br>Internal marks: "Maine teri maut chuni!" 🧛‍♂️🥀</p>
                     <div class="post-actions">
                         <span class="material-icons">chat_bubble_outline</span>
                         <span class="material-icons">repeat</span>
@@ -106,48 +93,73 @@
                 </div>
             </article>
         </div>
+
+        <div id="profile-view" style="display:none">
+            <div class="profile-banner"></div>
+            <div class="profile-header-main">
+                <div class="avatar-row">
+                    <img src="https://i.pravatar.cc/150?u=x" class="avatar-overlap">
+                    <div class="profile-actions">
+                        <span class="material-icons circle-icon">more_horiz</span>
+                        <button class="following-btn">Following</button>
+                    </div>
+                </div>
+                <div class="bio-section">
+                    <h3>X <span class="material-icons verified-icon">verified</span></h3>
+                    <p class="gray">@Twitter</p>
+                    <p class="bio-text">Life is more than just code. 🌿</p>
+                    <div class="follow-stats">
+                        <span><strong>120</strong> Following</span>
+                        <span><strong>65.7M</strong> Followers</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab active">Tweets</div>
+                <div class="tab">Replies</div>
+                <div class="tab">Media</div>
+            </div>
+            <article class="post">
+                <img src="https://i.pravatar.cc/150?u=x" class="avatar-sm">
+                <div class="post-content">
+                    <p class="post-text">Sometimes you just need to unplug and touch some grass. Life is beautiful beyond the screen. ✨</p>
+                </div>
+            </article>
+        </div>
     </main>
 
-    <aside class="right-panel">
-        <div class="search-bar">
+    <aside class="right-sidebar">
+        <div class="search-container">
             <span class="material-icons">search</span>
             <input type="text" placeholder="Search Twitter">
         </div>
-        <div class="widget">
+        <div class="trending">
             <h3>You might like</h3>
             <div class="user-row">
-                <img src="https://i.pravatar.cc/150?u=bill" class="avatar-sm">
-                <div class="user-meta">
-                    <p>Bill Gates <span class="material-icons verified-blue">verified</span></p>
-                    <p class="handle-gray">@BillGates</p>
+                <img src="https://i.pravatar.cc/150?u=bill" class="avatar-vsm">
+                <div class="user-info">
+                    <p>Bill Gates <span class="material-icons verified-blue" style="font-size:14px">verified</span></p>
                 </div>
-                <button class="follow-pill">Follow</button>
+                <button class="follow-btn-sm">Follow</button>
             </div>
         </div>
     </aside>
 </div>
 
 <script>
-    function toggleProfile() {
-        const profile = document.getElementById('profileSection');
-        const composer = document.getElementById('composer');
-        const headerTitle = document.getElementById('headerTitle');
-        const backBtn = document.getElementById('backBtn');
-        const tweetCount = document.getElementById('tweetCount');
-
-        if (profile.style.display === 'none') {
-            profile.style.display = 'block';
-            composer.style.display = 'none';
-            headerTitle.innerText = "X";
-            backBtn.style.display = 'block';
-            tweetCount.style.display = 'block';
-        } else {
-            profile.style.display = 'none';
-            composer.style.display = 'block';
-            headerTitle.innerText = "Home";
-            backBtn.style.display = 'none';
-            tweetCount.style.display = 'none';
-        }
+    function showProfile() {
+        document.getElementById('home-view').style.display = 'none';
+        document.getElementById('profile-view').style.display = 'block';
+        document.getElementById('header-title').innerText = 'Profile';
+        document.getElementById('profile-nav').classList.add('active');
+        document.getElementById('home-nav').classList.remove('active');
+    }
+    function showHome() {
+        document.getElementById('home-view').style.display = 'block';
+        document.getElementById('profile-view').style.display = 'none';
+        document.getElementById('header-title').innerText = 'Home';
+        document.getElementById('home-nav').classList.add('active');
+        document.getElementById('profile-nav').classList.remove('active');
     }
 </script>
 
