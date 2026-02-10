@@ -1,141 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X Clone - Profile</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Clone - Project 1</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app-container">
+<div class="main-layout">
     <nav class="sidebar">
-      <div class="sidebar__logo">
-        <svg viewBox="0 0 24 24" aria-hidden="true" class="x-logo"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
-      </div>
-
-      <div class="sidebar__links">
-        <div class="nav-item"><span class="material-icons">home</span> Home</div>
-        <div class="nav-item"><span class="material-icons">search</span> Explore</div>
-        <div class="nav-item"><span class="material-icons">notifications_none</span> Notifications</div>
-        <div class="nav-item"><span class="material-icons">mail_outline</span> Messages</div>
-        <div class="nav-item"><span class="material-icons">list_alt</span> Lists</div>
-        <div class="nav-item"><span class="material-icons">bookmark_border</span> Bookmarks</div>
-        <div class="nav-item active"><span class="material-icons">person_outline</span> Profile</div>
-        <div class="nav-item"><span class="material-icons">pending</span> More</div>
-      </div>
-
-      <button class="post-btn-sidebar">Post</button>
-
-      <div class="sidebar__user-footer">
-        <img src="https://i.pravatar.cc/150?u=me" class="avatar-small">
-        <div class="user-info">
-          <p class="name">Kristi Hines <span class="material-icons verified-gold">verified</span></p>
-          <p class="handle">@kristileilani</p>
+        <div class="nav-logo">
+            <svg viewBox="0 0 24 24" class="x-icon"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
         </div>
-        <span class="material-icons">more_horiz</span>
-      </div>
+        <div class="nav-links">
+            <div class="nav-item active"><span class="material-icons">home</span> <span>Home</span></div>
+            <div class="nav-item"><span class="material-icons">search</span> <span>Explore</span></div>
+            <div class="nav-item"><span class="material-icons">notifications_none</span> <span>Notifications</span></div>
+            <div class="nav-item"><span class="material-icons">mail_outline</span> <span>Messages</span></div>
+            <div class="nav-item" onclick="toggleProfile()"><span class="material-icons">person_outline</span> <span>Profile</span></div>
+        </div>
+        <button class="post-btn-main">Post</button>
+        
+        <div class="user-profile-pill">
+            <img src="https://i.pravatar.cc/150?u=me" class="avatar-sm">
+            <div class="user-names">
+                <p class="name">Kristi Hines <span class="material-icons verified-gold">verified</span></p>
+                <p class="handle">@kristileilani</p>
+            </div>
+            <span class="material-icons">more_horiz</span>
+        </div>
     </nav>
 
     <main class="feed">
-      <header class="feed__header">
-        <span class="material-icons back-icon">arrow_back</span>
-        <div class="header-details">
-          <h2>X <span class="material-icons verified-gold">verified</span></h2>
-          <span class="tweet-stats">14.9K Tweets</span>
-        </div>
-      </header>
-
-      <section class="profile">
-        <div class="profile__banner"></div>
-        <div class="profile__meta-box">
-          <div class="avatar-action-row">
-            <img src="https://i.pravatar.cc/150?u=x" class="avatar-large">
-            <div class="action-buttons">
-              <span class="material-icons circ-btn">more_horiz</span>
-              <span class="material-icons circ-btn">notification_add</span>
-              <button class="following-btn">Following</button>
+        <header class="feed-header">
+            <span class="material-icons" id="backBtn" style="display:none; cursor:pointer;">arrow_back</span>
+            <div>
+                <h2 id="headerTitle">Home</h2>
+                <span id="tweetCount" class="sub-text" style="display:none;">14.9K Tweets</span>
             </div>
-          </div>
-          
-          <div class="profile__bio-section">
-            <h3>X <span class="material-icons verified-gold">verified</span></h3>
-            <p class="handle">@Twitter</p>
-            <p class="bio">What's happening?!</p>
-            
-            <div class="meta-data">
-              <span><span class="material-icons">location_on</span> everywhere</span>
-              <span><span class="material-icons">link</span> <a href="#">about.twitter.com</a></span>
-              <span><span class="material-icons">calendar_today</span> Joined Feb 2007</span>
+        </header>
+
+        <section id="profileSection" class="profile-view" style="display:none;">
+            <div class="banner"></div>
+            <div class="profile-content">
+                <div class="avatar-row">
+                    <img src="https://i.pravatar.cc/150?u=x" class="avatar-lg">
+                    <button class="following-btn">Following</button>
+                </div>
+                <div class="profile-info">
+                    <h3>X <span class="material-icons verified-gold">verified</span></h3>
+                    <p class="handle">@Twitter</p>
+                    <p class="bio">What's happening?! [cite: 31]</p>
+                    <div class="meta-info">
+                        <span><span class="material-icons">location_on</span> everywhere</span>
+                        <span><span class="material-icons">link</span> <a href="#">about.twitter.com</a></span>
+                    </div>
+                    <div class="stats">
+                        <span><strong>0</strong> Following</span>
+                        <span><strong>65.7M</strong> Followers</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="follower-stats">
-              <span><strong>0</strong> Following</span>
-              <span><strong>65.7M</strong> Followers</span>
+            <div class="tabs">
+                <div class="tab active">Tweets</div>
+                <div class="tab">Replies</div>
+                <div class="tab">Media</div>
+                <div class="tab">Likes</div>
             </div>
-          </div>
+        </section>
+
+        <div class="tweet-composer" id="composer">
+            <div class="composer-row">
+                <img src="https://i.pravatar.cc/150?u=me" class="avatar-sm">
+                <textarea placeholder="What is happening?!" id="tweetInput" maxlength="280"></textarea>
+            </div>
+            <div class="composer-footer">
+                <div class="icons">
+                    <span class="material-icons">image</span>
+                    <span class="material-icons">gif_box</span>
+                    <span class="material-icons">poll</span>
+                </div>
+                <div class="right-footer">
+                    <span id="charCounter">0/280</span> <button class="post-submit" id="postBtn" disabled>Post</button>
+                </div>
+            </div>
         </div>
 
-        <nav class="profile__tabs">
-          <div class="tab active">Tweets</div>
-          <div class="tab">Replies</div>
-          <div class="tab">Media</div>
-          <div class="tab">Likes</div>
-        </nav>
-      </section>
-
-      <div class="tweet-box">
-        <div class="tweet-box__input-row">
-          <img src="https://i.pravatar.cc/150?u=me" class="avatar-small">
-          <textarea maxlength="280" placeholder="What is happening?!"></textarea>
+        <div id="tweetFeed">
+            <article class="post">
+                <img src="https://i.pravatar.cc/150?u=x" class="avatar-sm">
+                <div class="post-body">
+                    <div class="post-header">
+                        <strong>X</strong> <span class="material-icons verified-gold">verified</span>
+                        <span class="handle-gray">@Twitter · Jul 21</span>
+                    </div>
+                    <p class="post-text">We've had tremendous interest in the new ads revenue sharing program from creators around the world.</p>
+                    <div class="post-actions">
+                        <span class="material-icons">chat_bubble_outline</span>
+                        <span class="material-icons">repeat</span>
+                        <span class="material-icons">favorite_border</span>
+                        <span class="material-icons">bar_chart</span>
+                    </div>
+                </div>
+            </article>
         </div>
-        <div class="tweet-box__footer">
-          <div class="box-icons">
-            <span class="material-icons">image</span>
-            <span class="material-icons">gif_box</span>
-            <span class="material-icons">poll</span>
-          </div>
-          <button class="post-submit-btn" disabled>Post</button>
-        </div>
-      </div>
-
-      <article class="post">
-        <img src="https://i.pravatar.cc/150?u=x" class="avatar-small">
-        <div class="post__content">
-          <div class="post__user">
-            <strong>X</strong> <span class="material-icons verified-gold">verified</span>
-            <span class="post-handle">@Twitter · Jul 21</span>
-          </div>
-          <p class="post-text">We've had tremendous interest in the new ads revenue sharing program from creators around the world.</p>
-          <div class="post__actions">
-            <span class="material-icons">chat_bubble_outline</span>
-            <span class="material-icons">repeat</span>
-            <span class="material-icons">favorite_border</span>
-            <span class="material-icons">bar_chart</span>
-          </div>
-        </div>
-      </article>
     </main>
 
-    <aside class="widgets">
-      <div class="widgets__search">
-        <span class="material-icons">search</span>
-        <input type="text" placeholder="Search Twitter">
-      </div>
-      <div class="widgets__box">
-        <h4>You might like</h4>
-        <div class="follow-suggestion">
-          <img src="https://i.pravatar.cc/150?u=bill" class="avatar-small">
-          <div class="suggest-info">
-            <p>Bill Gates <span class="material-icons verified-blue">verified</span></p>
-            <p class="handle">@BillGates</p>
-          </div>
-          <button class="follow-pill">Follow</button>
+    <aside class="right-panel">
+        <div class="search-bar">
+            <span class="material-icons">search</span>
+            <input type="text" placeholder="Search Twitter">
         </div>
-      </div>
+        <div class="widget">
+            <h3>You might like</h3>
+            <div class="user-row">
+                <img src="https://i.pravatar.cc/150?u=bill" class="avatar-sm">
+                <div class="user-meta">
+                    <p>Bill Gates <span class="material-icons verified-blue">verified</span></p>
+                    <p class="handle-gray">@BillGates</p>
+                </div>
+                <button class="follow-pill">Follow</button>
+            </div>
+        </div>
     </aside>
-  </div>
+</div>
+
+<script>
+    function toggleProfile() {
+        const profile = document.getElementById('profileSection');
+        const composer = document.getElementById('composer');
+        const headerTitle = document.getElementById('headerTitle');
+        const backBtn = document.getElementById('backBtn');
+        const tweetCount = document.getElementById('tweetCount');
+
+        if (profile.style.display === 'none') {
+            profile.style.display = 'block';
+            composer.style.display = 'none';
+            headerTitle.innerText = "X";
+            backBtn.style.display = 'block';
+            tweetCount.style.display = 'block';
+        } else {
+            profile.style.display = 'none';
+            composer.style.display = 'block';
+            headerTitle.innerText = "Home";
+            backBtn.style.display = 'none';
+            tweetCount.style.display = 'none';
+        }
+    }
+</script>
 
 </body>
 </html>
