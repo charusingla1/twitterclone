@@ -1,0 +1,96 @@
+:root{
+    --bg: #fff;
+    --color: #000;
+    --focus: #000;
+    --nofocus: gray;
+    --border : lightgray;
+    --button_focus: #000;
+    --button_nofocus: gray;
+    --blue: #1D9BF0;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --trending-bg: #f7f9f9;
+}
+
+body.dark-mode {
+    --bg: #000;
+    --color: #fff;
+    --white: #000;
+    --black: #fff;
+    --border: #2F3336;
+    --hover: #16181C;
+    --header-bg: rgba(0, 0, 0, 0.85);
+    --trending-bg: #16181C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* The container needs the flex weight to hold space in the app-layout */
+#sidebar-container {
+    flex: 0.25;
+    min-width: 250px;
+}
+
+.sidebar {
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg);
+    color: var(--color);
+}
+
+.logo-wrapper {
+    padding: 10px;
+}
+
+.x-logo {
+    width: 30px;
+    fill: currentcolor;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    width: fit-content;
+}
+
+.nav-item:hover {
+    background: rgba(128, 128, 128, 0.1);
+}
+
+.nav-item.active {
+    font-weight: bold;
+}
+
+.tweet-btn {
+    background: var(--blue);
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 30px;
+    width: 90%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.user-pill {
+    margin-top: auto;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+}

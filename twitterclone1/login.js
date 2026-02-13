@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signin_button=document.getElementById('submit-button');
     const logging = document.getElementById('logging');
     const login_button=document.getElementById('submit-button2');
+    signup_link=document.getElementById('signup_link');
     let n;
     let e;
     let p;
@@ -24,12 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
         name:'',
         email:'',
         password:'',
-        dob:''
+        dob:'',
+        uname:'',
+        profile_pic:''
     };
 
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-
 
     async function log(){
         await sleep(2000);
@@ -48,8 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-   
-
     newAccount.addEventListener('click',()=>{
         Signin_dialog.style.display='none';
         newAccount_dialog.style.display='block';
@@ -61,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         Signin_dialog.style.display='block';
         backdrop.style.display='block';
     });
-    
 
     closeButton.forEach(button => {
         button.addEventListener('click', () => {
@@ -139,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirm_pswd.addEventListener('input',()=>{
         const p=new_pswd.value;
         const cp=confirm_pswd.value;
+        
         if (confirm_pswd.value.trim() === '') {
             document.getElementById('pswd_mismatch').style.display = 'none';
             user.password='';
@@ -162,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const birthDate=new Date(dob);
         let age=today.getFullYear()-birthDate.getFullYear();
         const month=today.getMonth()-birthDate.getMonth();
+        
         if (month<0 || (month===0 && today.getDate()<birthDate.getDate())) {
             age--;
         }
@@ -175,19 +175,16 @@ document.addEventListener('DOMContentLoaded', () => {
             updateButtonColor();
         }
         updateButtonColor();
-
-
-        
-         });
+    });
 
     signin_button.addEventListener('click', async () => {
         localStorage.setItem('user', JSON.stringify(user));
         newAccount_dialog.style.display = 'none';
         backdrop.style.display = 'none';
-        logging.style.display = 'block';
+        logging.style.display = 'flex';
+        await sleep(2000);
         log();
         window.location.href = 'index.html';
-
     });
 
     login_button.addEventListener('click', async ()=>{
@@ -197,14 +194,17 @@ document.addEventListener('DOMContentLoaded', () => {
             storedUser={
                 name:'',
                 email:'',
-                password:''
+                password:'',
+                dob:'',
+                uname:'',
+                profile_pic:''
             };
         }
         
         const enteredName=name.value;
         const enteredPswd=pswd.value;
 
-        if ((enteredName !== storedUser.name && enteredName !== storedUser.email)) {
+        if ((enteredName !== storedUser.uname && enteredName !== storedUser.email)) {
             document.getElementById('wrong_name').style.display='block';
             document.getElementById('wrong_pswd').style.display='none';
         }
@@ -215,9 +215,16 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             document.getElementById('wrong_name').style.display='none';
             document.getElementById('wrong_pswd').style.display='none';
+            logging.style.display='flex';
             await sleep(2000);
+            log();
             window.location.href='index.html';
         }
     });
 
+    signup_link.addEventListener('click',()=>{
+        Signin_dialog.style.display='none';
+        newAccount_dialog.style.display='block';
+        backdrop.style.display='block';
+    });
 });

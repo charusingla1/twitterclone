@@ -19,11 +19,13 @@ body{
     z-index:1001;
     position:fixed;
     top:0;
+    
+
 }
 
 #logging img{
-    width:5%;
-    height:10%;
+    width:8%;
+    height:16%;
     display: block;
     margin:auto;
 }

@@ -44,17 +44,17 @@
         <div class="body">
             <h2>Create your account</h2>
             
-            <input id="new_name" type="text" placeholder="Name">
+            <input id="new_name" type="text" placeholder="Name" aria-label="Name">
             <p class="err_msg" id="wrong_newname">Name must be between 3 and 50 characters long!</p>
-            <input id="new_email" type="email" placeholder="Email">
+            <input id="new_email" type="email" placeholder="Email" aria-label="Email">
             <p class="err_msg" id="wrong_email">Please enter a valid email address!</p>
-            <input id="new_pswd" type="password" placeholder=" Create Password">
-            <input id="confirm_pswd" type="password" placeholder=" Confirm Password">
+            <input id="new_pswd" type="password" placeholder=" Create Password" aria-label="Create Password">
+            <input id="confirm_pswd" type="password" placeholder=" Confirm Password" aria-label="Confirm Password">
             <p class="err_msg" id="pswd_mismatch">Passwords do not match!</p>
             <p class="err_msg" id="weak_pswd">Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and a number.</p>
             <h3>Date of Birth</h3>
             <p id="disclaimer">This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.</p>
-            <input id="new_dob" type="date">
+            <input id="new_dob" type="date" aria-label="Date of Birth">
             <p class="err_msg" id="wrong_dob">You must be at least 13 years old to create an account!</p>
             <button id="submit-button" disabled>Next</button>
         </div>
@@ -72,10 +72,10 @@
         <p class="err_msg" id="wrong_pswd">Incorrect password!</p>
 
         
-        <input id="name" type="text" placeholder="Username or email">
-        <input id="pswd" type="password" placeholder="Password">
+        <input id="name" type="text" placeholder="Username or email" aria-label="Username or email">
+        <input id="pswd" type="password" placeholder="Password" aria-label="Password">
         <button id="submit-button2">Next</button>
-        <p>Don't have an account? <a href="#">Sign up</a></p>
+        <p>Don't have an account? <a id="signup_link" href="#">Sign up</a></p>
         </div>
         
     </div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - X Clone</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-layout">
+    <div id="sidebar-container"></div>
+
+    <main class="feed">
+        <header class="header">
+            <h2 id="header-title">Profile</h2>
+        </header>
+
+        <div class="profile-banner"></div>
+        <div class="profile-header-main">
+            <div class="avatar-row">
+                <div class="profile-avatar-wrapper">
+                    <img src="https://i.pravatar.cc/150?u=x" class="avatar-overlap" alt="Profile Avatar">
+                    <label for="edit-profile-pic" class="edit-pic-overlay"><span class="material-icons">add_a_photo</span></label>
+                    <input type="file" id="edit-profile-pic" accept="image/*" style="display:none">
+                </div>
+                <div class="profile-actions">
+                    <span class="material-icons circle-icon">more_horiz</span>
+                    <button class="following-btn">Following</button>
+                </div>
+            </div>
+            <div class="bio-section">
+                <h3>X <span class="material-icons verified-icon">verified</span></h3>
+                <p class="gray">@Twitter</p>
+                <p class="bio-text">Life is more than just code. 🌿</p>
+                <div class="follow-stats">
+                    <span><strong>120</strong> Following</span>
+                    <span><strong>65.7M</strong> Followers</span>
+                </div>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab active">Tweets</div>
+            <div class="tab">Replies</div>
+            <div class="tab">Media</div>
+        </div>
+        <div id="profile-feed-container"></div>
+    </main>
+
+    <aside class="right-sidebar">
+        <!-- Right sidebar content can be duplicated or dynamically loaded -->
+    </aside>
+</div>
+
+<div id="backdrop"></div>
+
+<div class="dialog" id="tweet_dialog">
+    <div class="head">
+        <span class="closeButton">&times;</span>
+    </div>
+    <div class="body">
+        <div class="composer-area">
+             <img src="https://i.pravatar.cc/150?u=kristi" class="avatar-sm" alt="User Avatar">
+             <textarea id="dialog-composer-input" placeholder="What is happening?!"></textarea>
+        </div>
+        <div class="dialog-footer">
+            <span class="char-count" id="dialog-char-count"></span>
+            <button class="post-btn-dialog" id="dialog-post-btn" disabled>Post</button>
+        </div>
+    </div>
+</div>
+
+    <script src="profile.js"></script>
+</body>
+</html>
