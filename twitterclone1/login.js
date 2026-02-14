@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else{
             document.getElementById('weak_pswd').style.display='none';
+            user.password=p;
         }
         updateButtonColor();
     });
@@ -172,7 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateButtonColor();
     });
 
-    signin_button.addEventListener('click', async () => {
+    signin_button.addEventListener('click', async (e) => {
+        e.preventDefault();
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.removeItem('signedOut');
         newAccount_dialog.style.display = 'none';
@@ -183,8 +185,27 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
     });
 
-    login_button.addEventListener('click', async ()=>{
-        const storedUser=JSON.parse(localStorage.getItem('user'));
+    const updateLoginButtonColor = () => {
+        if (name.value.trim() !== '' && pswd.value.trim() !== '') {
+            login_button.style.backgroundColor='#000';
+            login_button.style.opacity='1';
+            login_button.disabled=false;
+        } else {
+            login_button.style.backgroundColor='#000';
+            login_button.style.opacity='0.5';
+            login_button.disabled=true;
+        }
+    };
+
+    name.addEventListener('input', updateLoginButtonColor);
+    pswd.addEventListener('input', updateLoginButtonColor);
+
+    updateLoginButtonColor();
+
+
+    login_button.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        let storedUser=JSON.parse(localStorage.getItem('user'));
         
         if (!storedUser) {
             storedUser={
@@ -196,11 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 profile_pic:''
             };
         }
-        
-        const enteredName=name.value;
-        const enteredPswd=pswd.value;
 
-        if ((enteredName !== storedUser.uname && enteredName !== storedUser.email)) {
+        console.log(storedUser);
+        
+        let enteredName=name.value;
+        let enteredPswd=pswd.value;
+
+        if (enteredName !== storedUser.uname && enteredName !== storedUser.email) {
             document.getElementById('wrong_name').style.display='block';
             document.getElementById('wrong_pswd').style.display='none';
         }

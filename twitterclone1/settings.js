@@ -195,7 +195,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (signOutBtn) {
         signOutBtn.addEventListener('click', () => {
-            localStorage.removeItem('user');
             localStorage.setItem('signedOut', 'true');
             window.location.href = 'login.html';
         });
