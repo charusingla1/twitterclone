@@ -1,69 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Apply Theme
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
-
     const stored_user = JSON.parse(localStorage.getItem('user')) || {};
-
-    // Load the sidebar dynamically
     const sidebarContainer = document.getElementById('sidebar-container');
-    if (sidebarContainer) {
-        try {
-            const response = await fetch('sidebar.html');
-            sidebarContainer.innerHTML = await response.text();
-            
-            if (stored_user.profile_pic) {
-                const sidebarImg = document.querySelector('.user-pill img');
-                if(sidebarImg) sidebarImg.src = stored_user.profile_pic;
-            }
-            
-            // Update Sidebar Text
-            if (stored_user.name) {
-                const sidebarName = sidebarContainer.querySelector('.user-info .name');
-                if (sidebarName) sidebarName.innerHTML = `${stored_user.name} <span class="material-icons verified-icon">verified</span>`;
-            }
-            if (stored_user.uname) {
-                const sidebarHandle = sidebarContainer.querySelector('.user-info .handle');
-                if (sidebarHandle) sidebarHandle.innerText = `@${stored_user.uname}`;
-            }
+    const feedContainer = document.getElementById('profile-feed-container');
+    const editPicInput = document.getElementById('edit-profile-pic');
+    const closeBtns = document.querySelectorAll('.closeButton');
+    const profileImg = document.querySelector('.avatar-overlap');
+    const profileName = document.querySelector('.bio-section h3');
+    const profileHandle = document.querySelector('.bio-section .gray');
+    const dialogImg = document.querySelector('.composer-area .avatar-sm');
+    let homeNav;
+    let profileNav;
 
-            // Add Settings Listener
-            const settingsNav = document.getElementById('settings-nav');
-            if(settingsNav) settingsNav.addEventListener('click', () => window.location.href = 'settings.html');
-
-            // Add Sidebar Post Button Listener
-            const sidebarPostBtn = document.querySelector('.sidebar .tweet-btn');
-            if (sidebarPostBtn) {
-                sidebarPostBtn.addEventListener('click', () => {
-                    document.getElementById('tweet_dialog').style.display = 'block';
-                    document.getElementById('backdrop').style.display = 'block';
-                });
-            }
-        } catch (error) {
-            console.error('Error loading sidebar:', error);
-        }
-    }
-
-    // Update Profile Page Avatar
-    if (stored_user.profile_pic) {
-        const profileImg = document.querySelector('.avatar-overlap');
-        if(profileImg) profileImg.src = stored_user.profile_pic;
-    }
-
-    // Update Profile Page Text
-    if (stored_user.name) {
-        const profileName = document.querySelector('.bio-section h3');
-        if (profileName) profileName.innerHTML = `${stored_user.name} <span class="material-icons verified-icon">verified</span>`;
-    }
-    if (stored_user.uname) {
-        const profileHandle = document.querySelector('.bio-section .gray');
-        if (profileHandle) profileHandle.innerText = `@${stored_user.uname}`;
-    }
-
-    // --- TWEET LOGIC ---
     const getTweets = () => JSON.parse(localStorage.getItem('tweets')) || [];
-    
+
     const formatTime = (timestamp) => {
         const date = new Date(timestamp);
         const now = new Date();
@@ -84,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             user: {
                 name: stored_user.name || 'User',
                 handle: stored_user.uname || 'user',
-                avatar: stored_user.profile_pic || 'https://i.pravatar.cc/150?u=default'
+                avatar: stored_user.profile_pic || ''
             },
             likes: 0,
             retweets: 0,
@@ -97,17 +46,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         return newTweet;
     };
 
-    const renderProfileFeed = () => {
-        const feedContainer = document.getElementById('profile-feed-container');
-        if (!feedContainer) return;
+    const setupComposer = (inputId, countId, btnId) => {
+        const input = document.getElementById(inputId);
+        const count = document.getElementById(countId);
+        const btn = document.getElementById(btnId);
         
+        if (!input || !count || !btn) return;
+        input.addEventListener('input', () => {
+            const len = input.value.length;
+            count.innerText = len > 0 ? `${len}/280` : '';
+            btn.disabled = len === 0 || len > 280;
+        });
+        btn.addEventListener('click', () => {
+            saveTweet(input.value);
+            input.value = '';
+            renderProfileFeed();
+            document.getElementById('tweet_dialog').style.display = 'none';
+            document.getElementById('backdrop').style.display = 'none';
+        });
+    };
+
+    const renderProfileFeed = () => {
+        if (!feedContainer) return;
         const allTweets = getTweets();
-        // Filter tweets for the current user (matching handle)
         const myTweets = allTweets.filter(t => t.user.handle === stored_user.uname);
 
         feedContainer.innerHTML = myTweets.map(tweet => `
             <article class="post" data-id="${tweet.id}">
-                <img src="${tweet.user.avatar}" class="avatar-sm" alt="User Avatar">
+                ${tweet.user.avatar 
+                    ? `<img src="${tweet.user.avatar}" class="avatar-sm" alt="User Avatar">` 
+                    : `<div class="avatar-sm placeholder-icon"><span class="material-icons">account_circle</span></div>`}
                 <div class="post-content">
                     <div class="post-header">
                         <strong>${tweet.user.name}</strong> <span class="material-icons verified-blue">verified</span> <span class="gray">@${tweet.user.handle} · ${formatTime(tweet.timestamp)}</span>
@@ -142,11 +110,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         `).join('');
     };
 
-    // Profile Feed Interaction Logic
-    const feedContainer = document.getElementById('profile-feed-container');
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
     if (feedContainer) {
         feedContainer.addEventListener('click', (e) => {
-            // Handle Action Buttons
             const actionBtn = e.target.closest('.action-btn');
             if (actionBtn) {
                 const article = actionBtn.closest('.post');
@@ -158,7 +127,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const action = actionBtn.dataset.action;
 
                 if (action === 'comment') {
-                    // Toggle Inline Comment Box
                     let inputArea = article.querySelector('.comment-input-area');
                     if (!inputArea) {
                         inputArea = document.createElement('div');
@@ -191,7 +159,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            // Handle Reply Button Click
             if (e.target.classList.contains('reply-btn')) {
                 const inputArea = e.target.closest('.comment-input-area');
                 const text = inputArea.querySelector('input').value.trim();
@@ -210,38 +177,103 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    const setupComposer = (inputId, countId, btnId) => {
-        const input = document.getElementById(inputId);
-        const count = document.getElementById(countId);
-        const btn = document.getElementById(btnId);
-        
-        if (!input || !count || !btn) return;
-        input.addEventListener('input', () => {
-            const len = input.value.length;
-            count.innerText = len > 0 ? `${len}/280` : '';
-            btn.disabled = len === 0 || len > 280;
-        });
-        btn.addEventListener('click', () => {
-            saveTweet(input.value);
-            input.value = '';
-            renderProfileFeed();
-            document.getElementById('tweet_dialog').style.display = 'none';
-            document.getElementById('backdrop').style.display = 'none';
-        });
-    };
+    if (sidebarContainer) {
+        try {
+            const response = await fetch('sidebar.html');
+            sidebarContainer.innerHTML = await response.text();
+            
+            const sidebarImg = document.querySelector('.user-pill .avatar-vsm');
+            if (sidebarImg) {
+                if (stored_user.profile_pic) {
+                    if (sidebarImg.tagName === 'IMG') {
+                        sidebarImg.src = stored_user.profile_pic;
+                    } else {
+                        const img = document.createElement('img');
+                        img.className = 'avatar-vsm';
+                        img.src = stored_user.profile_pic;
+                        sidebarImg.replaceWith(img);
+                    }
+                } else {
+                    const div = document.createElement('div');
+                    div.className = 'avatar-vsm placeholder-icon';
+                    div.innerHTML = '<span class="material-icons">account_circle</span>';
+                    sidebarImg.replaceWith(div);
+                }
+            }
+            
+            if (stored_user.name) {
+                const sidebarName = sidebarContainer.querySelector('.user-info .name');
+                if (sidebarName) sidebarName.innerHTML = `${stored_user.name} <span class="material-icons verified-icon">verified</span>`;
+            }
+            if (stored_user.uname) {
+                const sidebarHandle = sidebarContainer.querySelector('.user-info .handle');
+                if (sidebarHandle) sidebarHandle.innerText = `@${stored_user.uname}`;
+            }
+
+            const settingsNav = document.getElementById('settings-nav');
+            if(settingsNav) settingsNav.addEventListener('click', () => window.location.href = 'settings.html');
+
+            const sidebarPostBtn = document.querySelector('.sidebar .tweet-btn');
+            if (sidebarPostBtn) {
+                sidebarPostBtn.addEventListener('click', () => {
+                    document.getElementById('tweet_dialog').style.display = 'block';
+                    document.getElementById('backdrop').style.display = 'block';
+                });
+            }
+        } catch (error) {
+            console.error('Error loading sidebar:', error);
+        }
+    }
+
+    if (profileImg) {
+        if (stored_user.profile_pic) {
+            if (profileImg.tagName === 'IMG') {
+                profileImg.src = stored_user.profile_pic;
+            } else {
+                profileImg.src = stored_user.profile_pic;
+            }
+        } else {
+            const div = document.createElement('div');
+            div.className = 'avatar-overlap placeholder-icon';
+            div.innerHTML = '<span class="material-icons">account_circle</span>';
+            profileImg.replaceWith(div);
+        }
+    }
+
+    if (dialogImg) {
+        if (stored_user.profile_pic) {
+            if (dialogImg.tagName === 'IMG') {
+                dialogImg.src = stored_user.profile_pic;
+            } else {
+                const img = document.createElement('img');
+                img.className = 'avatar-sm';
+                img.alt = 'User Avatar';
+                img.src = stored_user.profile_pic;
+                dialogImg.replaceWith(img);
+            }
+        } else {
+            const div = document.createElement('div');
+            div.className = 'avatar-sm placeholder-icon';
+            div.innerHTML = '<span class="material-icons">account_circle</span>';
+            dialogImg.replaceWith(div);
+        }
+    }
+
+    if (stored_user.name && profileName) {
+        profileName.innerHTML = `${stored_user.name} <span class="material-icons verified-icon">verified</span>`;
+    }
+    if (stored_user.uname && profileHandle) {
+        profileHandle.innerText = `@${stored_user.uname}`;
+    }
 
     setupComposer('dialog-composer-input', 'dialog-char-count', 'dialog-post-btn');
     renderProfileFeed();
 
-    // Close Dialog Logic
-    const closeBtns = document.querySelectorAll('.closeButton');
     closeBtns.forEach(btn => btn.addEventListener('click', () => {
         document.getElementById('tweet_dialog').style.display = 'none';
         document.getElementById('backdrop').style.display = 'none';
     }));
 
-    // Edit Profile Picture Logic
-    const editPicInput = document.getElementById('edit-profile-pic');
     if (editPicInput) {
         editPicInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -252,15 +284,29 @@ document.addEventListener('DOMContentLoaded', async () => {
                     stored_user.profile_pic = base64String;
                     localStorage.setItem('user', JSON.stringify(stored_user));
                     
-                    // Update image on page immediately
-                    const profileImg = document.querySelector('.avatar-overlap');
-                    if(profileImg) profileImg.src = base64String;
+                    let currentProfileImg = document.querySelector('.avatar-overlap');
+                    if(currentProfileImg) {
+                        if (currentProfileImg.tagName !== 'IMG') {
+                            const img = document.createElement('img');
+                            img.className = 'avatar-overlap';
+                            img.alt = 'Profile Avatar';
+                            currentProfileImg.replaceWith(img);
+                            currentProfileImg = img;
+                        }
+                        currentProfileImg.src = base64String;
+                    }
                     
-                    // Also update sidebar if possible
-                    const sidebarImg = document.querySelector('.user-pill img');
-                    if(sidebarImg) sidebarImg.src = base64String;
+                    const sidebarImg = document.querySelector('.user-pill .avatar-vsm');
+                    if(sidebarImg && sidebarImg.tagName === 'IMG') sidebarImg.src = base64String;
+                    else if (sidebarImg) {
+                    }
 
-                    // Update stored tweets in localStorage
+                    const dialogImg = document.querySelector('.composer-area .avatar-sm');
+                    if (dialogImg && dialogImg.tagName === 'IMG') {
+                        dialogImg.src = base64String;
+                    } else if (dialogImg) {
+                    }
+
                     const tweets = JSON.parse(localStorage.getItem('tweets')) || [];
                     tweets.forEach(t => {
                         if(t.user.handle === stored_user.uname) {
@@ -268,8 +314,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     });
                     localStorage.setItem('tweets', JSON.stringify(tweets));
-
-                    // Re-render feeds to show changes
                     renderProfileFeed();
                 };
                 reader.readAsDataURL(file);
@@ -277,16 +321,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Wait a moment for sidebar to load, then attach listeners
-    // In a real app, we'd use a callback or promise, but for now:
     setTimeout(() => {
-        const homeNav = document.getElementById('home-nav');
-        const profileNav = document.getElementById('profile-nav');
+        homeNav = document.getElementById('home-nav');
+        profileNav = document.getElementById('profile-nav');
 
         if (homeNav) {
-            homeNav.classList.remove('active'); // We are not on home
+            homeNav.classList.remove('active');
             homeNav.addEventListener('click', () => window.location.href = 'index.html');
         }
-        if (profileNav) profileNav.classList.add('active'); // We are on profile
+        if (profileNav) profileNav.classList.add('active');
     }, 100);
 });

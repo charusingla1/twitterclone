@@ -1,6 +1,5 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-	const newAccount=document.getElementById('createAccount');
+    const newAccount=document.getElementById('createAccount');
     const signIn=document.getElementById('signin');
     const Signin_dialog=document.getElementById('Signin_dialog');
     const newAccount_dialog=document.getElementById('newAccount');
@@ -16,11 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signin_button=document.getElementById('submit-button');
     const logging = document.getElementById('logging');
     const login_button=document.getElementById('submit-button2');
-    signup_link=document.getElementById('signup_link');
-    let n;
-    let e;
-    let p;
-    let cp;
+    const signup_link=document.getElementById('signup_link');
     let user={
         name:'',
         email:'',
@@ -32,14 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-    async function log(){
+    const log = async () => {
         await sleep(2000);
         logging.style.display='none';
-    }
+    };
 
-    log();
-
-   function updateButtonColor(){
+    const updateButtonColor = () => {
         if (user.name && user.email && user.password && user.dob){
             signin_button.style.backgroundColor='#000';
             signin_button.disabled=false;
@@ -47,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             signin_button.style.backgroundColor='';
             signin_button.disabled=true;
         }
-    }
+    };
+
+    log();
 
     newAccount.addEventListener('click',()=>{
         Signin_dialog.style.display='none';
@@ -179,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     signin_button.addEventListener('click', async () => {
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.removeItem('signedOut');
         newAccount_dialog.style.display = 'none';
         backdrop.style.display = 'none';
         logging.style.display = 'flex';
@@ -215,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             document.getElementById('wrong_name').style.display='none';
             document.getElementById('wrong_pswd').style.display='none';
+            localStorage.removeItem('signedOut');
             logging.style.display='flex';
             await sleep(2000);
             log();

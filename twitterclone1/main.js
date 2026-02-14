@@ -1,14 +1,50 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Apply Theme
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
+    const userRaw = localStorage.getItem('user');
+    const isSignedOut = localStorage.getItem('signedOut') === 'true';
 
-    let stored_user = JSON.parse(localStorage.getItem('user')) || {};
-    
+    if (!userRaw || isSignedOut) {
+        window.location.href = 'login.html';
+        return;
+    }
+    let stored_user = JSON.parse(userRaw) || {};
+    const mainFeed = document.querySelector('.feed');
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const close_btn = document.querySelectorAll('.closeButton');
+    const pp = document.getElementById('pp');
+    const preview_img = document.getElementById('preview_img');
+    const uname = document.getElementById('username');
+    const un_invalid = document.getElementById('invalid');
+    const pick_pp = document.getElementById('pick_pp');
+    const pick_un = document.getElementById('pick_un');
+    const un_submit = document.getElementById('submit_un');
+    const un_skip = document.getElementById('skip_un');
+    const pp_skip = document.getElementById('skip_pp');
+    const pp_submit = document.getElementById('submit_pp');
+    const skip = document.querySelectorAll('.skip');
+    const backdrop = document.getElementById('backdrop');
+    let profile_pic = '';
+    let username = '';
+
     const updateImages = (src) => {
-        const imgs = document.querySelectorAll('.user-pill img, .composer .avatar-sm');
-        imgs.forEach(img => img.src = src);
+        const targets = document.querySelectorAll('.user-pill .avatar-vsm, .composer .avatar-sm, .composer-area .avatar-sm');
+        targets.forEach(target => {
+            if (src) {
+                if (target.tagName === 'IMG') {
+                    target.src = src;
+                } else {
+                    const img = document.createElement('img');
+                    img.className = target.className.replace(' placeholder-icon', '');
+                    img.alt = 'User Avatar';
+                    img.src = src;
+                    target.replaceWith(img);
+                }
+            } else {
+                const div = document.createElement('div');
+                div.className = target.className.replace(' placeholder-icon', '') + ' placeholder-icon';
+                div.innerHTML = '<span class="material-icons">account_circle</span>';
+                target.replaceWith(div);
+            }
+        });
     };
 
     const updateUserText = () => {
@@ -19,7 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (sidebarHandle && stored_user.uname) sidebarHandle.innerText = `@${stored_user.uname}`;
     };
 
-    // --- TWEET LOGIC ---
     const getTweets = () => JSON.parse(localStorage.getItem('tweets')) || [];
     
     const formatTime = (timestamp) => {
@@ -42,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             user: {
                 name: stored_user.name || 'User',
                 handle: stored_user.uname || 'user',
-                avatar: stored_user.profile_pic || 'https://i.pravatar.cc/150?u=default'
+                avatar: stored_user.profile_pic || ''
             },
             likes: 0,
             retweets: 0,
@@ -55,6 +90,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         return newTweet;
     };
 
+    const setupComposer = (inputId, countId, btnId) => {
+        const input = document.getElementById(inputId);
+        const count = document.getElementById(countId);
+        const btn = document.getElementById(btnId);
+
+        if (!input || !count || !btn) return;
+
+        input.addEventListener('input', () => {
+            const len = input.value.length;
+            count.innerText = len > 0 ? `${len}/280` : '';
+            
+            if (len > 280) {
+                count.classList.add('limit-exceeded');
+                btn.disabled = true;
+            } else {
+                count.classList.remove('limit-exceeded');
+                btn.disabled = len === 0;
+            }
+        });
+
+        btn.addEventListener('click', () => {
+            saveTweet(input.value);
+            input.value = '';
+            count.innerText = '';
+            btn.disabled = true;
+            renderFeed();
+            document.getElementById('tweet_dialog').style.display = 'none';
+            document.getElementById('backdrop').style.display = 'none';
+        });
+    };
+
     const renderFeed = () => {
         const feedContainer = document.getElementById('feed-container');
         if (!feedContainer) return;
@@ -62,7 +128,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tweets = getTweets();
         feedContainer.innerHTML = tweets.map(tweet => `
             <article class="post" data-id="${tweet.id}">
-                <img src="${tweet.user.avatar}" class="avatar-sm" alt="User Avatar">
+                ${tweet.user.avatar 
+                    ? `<img src="${tweet.user.avatar}" class="avatar-sm" alt="User Avatar">` 
+                    : `<div class="avatar-sm placeholder-icon"><span class="material-icons">account_circle</span></div>`}
                 <div class="post-content">
                     <div class="post-header">
                         <strong>${tweet.user.name}</strong> <span class="material-icons verified-blue">verified</span> <span class="gray">@${tweet.user.handle} · ${formatTime(tweet.timestamp)}</span>
@@ -97,11 +165,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         `).join('');
     };
 
-    // Feed Interaction Logic (Like, Retweet, Comment)
-    const mainFeed = document.querySelector('.feed');
+    const showProfile = () => {
+        window.location.href = 'profile.html';
+    };
+
+    const showHome = () => {
+        window.scrollTo(0, 0);
+    };
+
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
     if (mainFeed) {
         mainFeed.addEventListener('click', (e) => {
-            // Handle Action Buttons
             const actionBtn = e.target.closest('.action-btn');
             if (actionBtn) {
                 const article = actionBtn.closest('.post');
@@ -109,7 +186,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const action = actionBtn.dataset.action;
 
                 if (action === 'comment') {
-                    // Toggle Inline Comment Box
                     let inputArea = article.querySelector('.comment-input-area');
                     if (!inputArea) {
                         inputArea = document.createElement('div');
@@ -127,7 +203,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     return;
                 }
 
-                // Handle Dynamic vs Static Tweets
                 if (id && !id.startsWith('demo')) {
                     const tweets = getTweets();
                     const tweet = tweets.find(t => t.id == id);
@@ -146,7 +221,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                     renderFeed();
                 } else {
-                    // Static Demo Tweet Logic (UI Only)
                     if (action === 'like') {
                         const isLiked = actionBtn.classList.toggle('liked');
                         const countSpan = actionBtn.querySelector('span:last-child');
@@ -160,7 +234,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         let count = parseInt(countSpan.innerText) || 0;
                         countSpan.innerText = count + 1;
 
-                        // Create a new tweet from this demo tweet
                         const text = article.querySelector('.post-text').innerText;
                         const handleText = article.querySelector('.post-header .gray').innerText;
                         const handle = handleText.split('·')[0].trim();
@@ -171,7 +244,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            // Handle Reply Button Click
             if (e.target.classList.contains('reply-btn')) {
                 const inputArea = e.target.closest('.comment-input-area');
                 const text = inputArea.querySelector('input').value.trim();
@@ -191,7 +263,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         renderFeed();
                     }
                 } else {
-                    // Static Comment Append
                     let commentsSection = article.querySelector('.comments-section');
                     if (!commentsSection) {
                         commentsSection = document.createElement('div');
@@ -200,7 +271,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                     commentsSection.innerHTML += `<div class="comment"><strong>@${stored_user.uname || 'user'}:</strong> <span>${text}</span></div>`;
                     
-                    // Update count
                     const commentBtn = article.querySelector('[data-action="comment"] span:last-child');
                     if(commentBtn) {
                         let c = parseInt(commentBtn.innerText) || 0;
@@ -213,55 +283,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    const setupComposer = (inputId, countId, btnId) => {
-        const input = document.getElementById(inputId);
-        const count = document.getElementById(countId);
-        const btn = document.getElementById(btnId);
-
-        if (!input || !count || !btn) return;
-
-        input.addEventListener('input', () => {
-            const len = input.value.length;
-            count.innerText = len > 0 ? `${len}/280` : '';
-            
-            if (len > 280) {
-                count.classList.add('limit-exceeded');
-                btn.disabled = true;
-            } else {
-                count.classList.remove('limit-exceeded');
-                btn.disabled = len === 0;
-            }
-        });
-
-        btn.addEventListener('click', () => {
-            saveTweet(input.value);
-            input.value = '';
-            count.innerText = '';
-            btn.disabled = true;
-            renderFeed();
-            // If it's the dialog, close it
-            document.getElementById('tweet_dialog').style.display = 'none';
-            document.getElementById('backdrop').style.display = 'none';
-        });
-    };
-
-    // Load the sidebar dynamically
-    const sidebarContainer = document.getElementById('sidebar-container');
     if (sidebarContainer) {
         try {
             const response = await fetch('sidebar.html');
             sidebarContainer.innerHTML = await response.text();
             
-            if (stored_user.profile_pic) {
-                updateImages(stored_user.profile_pic);
-            }
+            updateImages(stored_user.profile_pic);
             updateUserText();
 
-            // Add Settings Listener
+            const homeNav = document.getElementById('home-nav');
+            const profileNav = document.getElementById('profile-nav');
             const settingsNav = document.getElementById('settings-nav');
+
+            if(homeNav) homeNav.addEventListener('click', showHome);
+            if(profileNav) profileNav.addEventListener('click', showProfile);
             if(settingsNav) settingsNav.addEventListener('click', () => window.location.href = 'settings.html');
 
-            // Add Sidebar Post Button Listener
             const sidebarPostBtn = document.querySelector('.sidebar .tweet-btn');
             if (sidebarPostBtn) {
                 sidebarPostBtn.addEventListener('click', () => {
@@ -274,35 +311,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Update composer image on load
-    if (stored_user.profile_pic) {
-        updateImages(stored_user.profile_pic);
-    }
+    updateImages(stored_user.profile_pic);
 
-    // Initialize Composers and Feed
     setupComposer('home-composer-input', 'home-char-count', 'home-post-btn');
     setupComposer('dialog-composer-input', 'dialog-char-count', 'dialog-post-btn');
     renderFeed();
 
-    // --- ONBOARDING LOGIC (Moved from profile.js) ---
-    const close_btn = document.querySelectorAll('.closeButton');
-    const pp = document.getElementById('pp');
-    const preview_img = document.getElementById('preview_img');
-    const uname = document.getElementById('username');
-    const un_invalid = document.getElementById('invalid');
-    const pick_pp = document.getElementById('pick_pp');
-    const pick_un = document.getElementById('pick_un');
-    const un_submit = document.getElementById('submit_un');
-    const un_skip = document.getElementById('skip_un');
-    const pp_skip = document.getElementById('skip_pp');
-    const pp_submit = document.getElementById('submit_pp');
-    const skip = document.querySelectorAll('.skip');
-    const backdrop = document.getElementById('backdrop');
-    
-    let profile_pic = '';
-    let username = '';
-
-    // Show dialogs if data is missing
     if (pick_un && !stored_user.uname) {
         pick_un.style.display = 'block';
         
@@ -313,7 +327,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(backdrop) backdrop.style.display = 'block';
     }
 
-    // Event Listeners for Dialogs
     if (close_btn) {
         close_btn.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -335,7 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const base64String = e.target.result;
                     preview_img.src = base64String;
                     preview_img.style.display = 'block';
-                    profile_pic = base64String; // Store Base64 string instead of File object
+                    profile_pic = base64String; 
                     pp_skip.style.display = 'none';
                     pp_submit.style.display = "block";
                 };
@@ -391,23 +404,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (backdrop) backdrop.style.display = 'none';
         });
     }
-    // --- END ONBOARDING LOGIC ---
-
-    const homeNav = document.getElementById('home-nav');
-    const profileNav = document.getElementById('profile-nav');
-    const homeView = document.getElementById('home-view');
-    const headerTitle = document.getElementById('header-title');
-
-    function showProfile() {
-        // Redirect to the separate profile page
-        window.location.href = 'profile.html';
-    }
-
-    function showHome() {
-        // Already on home, maybe scroll to top
-        window.scrollTo(0, 0);
-    }
-
-    if(profileNav) profileNav.addEventListener('click', showProfile);
-    if(homeNav) homeNav.addEventListener('click', showHome);
 });

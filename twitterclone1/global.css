@@ -22,13 +22,16 @@ body.dark-mode {
     --trending-bg: #16181C;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .body {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* The container needs the flex weight to hold space in the app-layout */
 #sidebar-container {
     flex: 0.25;
     min-width: 250px;

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - X Clone</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .settings-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .settings-section h3 {
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: transparent;
+            color: var(--black);
+            outline: none;
+        }
+        .save-btn {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .theme-toggle:hover {
+            background-color: var(--hover);
+        }
+        .err_msg {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <div id="sidebar-container"></div>
+
+    <main class="feed">
+        <header class="header">
+            <h2 id="header-title">Settings</h2>
+        </header>
+        
+        <div class="settings-section">
+            <h3>Display</h3>
+            <div class="theme-toggle" id="theme-btn">
+                <span class="material-icons">dark_mode</span>
+                <span id="theme-text">Switch to Dark Mode</span>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Change Username</h3>
+            <div class="form-group">
+                <label>New Username</label>
+                <input type="text" id="set_username" placeholder="Enter new username">
+            </div>
+            <button class="save-btn" id="save_username">Save</button>
+            <p class="err_msg" id="username_msg" style="display:none"></p>
+        </div>
+
+        <div class="settings-section">
+            <h3>Change Password</h3>
+            <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" id="curr_pwd" placeholder="Current password">
+            </div>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="new_pwd" placeholder="New password">
+            </div>
+            <button class="save-btn" id="save_pwd">Update Password</button>
+            <p class="err_msg" id="pwd_msg" style="display:none"></p>
+        </div>
+
+        <div class="settings-section">
+            <h3>Sign out</h3>
+            <p style="margin-bottom: 15px;">Log out of your account.</p>
+            <button class="save-btn" id="sign_out_btn" style="background-color: var(--gray);">Log out</button>
+        </div>
+
+        <div class="settings-section" style="border-bottom: none;">
+            <h3 style="color: red;">Delete Account</h3>
+            <p style="margin-bottom: 15px;">Permanently delete your account and all of your content.</p>
+            <button class="save-btn" id="delete_acc" style="background-color: red;">Delete Account</button>
+        </div>
+    </main>
+
+    <aside class="right-sidebar"></aside>
+</div>
+
+<div id="backdrop"></div>
+
+<div class="dialog" id="tweet_dialog">
+    <div class="head">
+        <span class="closeButton">&times;</span>
+    </div>
+    <div class="body">
+        <div class="composer-area">
+             <img src="https://i.pravatar.cc/150?u=kristi" class="avatar-sm" alt="User Avatar">
+             <textarea id="dialog-composer-input" placeholder="What is happening?!"></textarea>
+        </div>
+        <div class="dialog-footer">
+            <span class="char-count" id="dialog-char-count"></span>
+            <button class="post-btn-dialog" id="dialog-post-btn" disabled>Post</button>
+        </div>
+    </div>
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>
